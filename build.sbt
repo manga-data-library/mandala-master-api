@@ -1,4 +1,4 @@
-name := """sora_scala"""
+name := """mandala-master-api"""
 
 version := "1.0-SNAPSHOT"
 

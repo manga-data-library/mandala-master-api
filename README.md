@@ -1,10 +1,8 @@
-#Sora 穹
+# mandala-master-api
 
-ShangriLa Anime API Server
+漫画に関するデータを返却するAPI。
 
-## ShangriLa Anime API Server システム概要
-
-### 説明
+## 説明
 
 アニメ作品の情報を返すREST形式のAPIサーバーです。
 
@@ -15,13 +13,15 @@ ShangriLa Anime API Server
 * フレームワーク: Play Framework 2.3+
 * 言語: Scala 2.11+
 
+
 ### インストール
 
 * MySQL or MariaDB インストール
-* anime_admin_development データベース作成
-* DDL登録 [ShanriLa DDL](https://github.com/Project-ShangriLa/shangrila/tree/master/DDL)
+* mandala データベース作成
+* DDL登録 [Mandala DDL](https://github.com/manga-data-library/mandala-db-migration/tree/master/DDL)
 * マスターテーブルのインサート
 * このディレクトリでactivatorを起動しPlayフレームワークをインストール
+
 
 ### 起動方法
 
@@ -34,24 +34,39 @@ activator shell> start 80
 
 Apache 2 license
 
+#### 変更点
+
+本プログラムはsora-framework-serverから以下の変更を行っています。
+
+- 全エンドポイントの変更
+- 対象データをアニメから漫画に変更
+
+
 ## V1 API リファレンス
 
-### エンドポイント
+### URI情報
 
-http://api.moemoe.tokyo/anime/v1
+| URI情報    | 値     |
+| :------------- | :------------- |
+| Host         | xxxxxxxxx（未定） |
+| Protocol     | HTTP  |
+| Base URI     | http://xxxxxxxxx/api/master/v1 |
 
-### 認証
 
-V1では認証を行いません。
+### アクセスURI一覧
+
+| HTTP method | URI             | 用途                   |
+| :---------- | :-------------- | :------------- |
+| GET         | /magazine/list      | 雑誌一覧の取得 |
+| GET         | /magazine/:release/:name      | 雑誌一覧の取得 |
+| GET         | /magazine/:release/:name/:year      | 雑誌一覧の取得 |
+| GET         | /magazine/:release/:name/:year/:month | 雑誌一覧の取得 |
 
 
-### レートリミット
 
-なし
+### GET /magazine/list
 
-### GET /anime/v1/master/cours
-
-ShangriLa API Serverが持っているアニメ情報のクールごとの情報のリストを返却します。
+Mandalaが保持している、雑誌情報（発行タイミングによる分類、情報の年月、雑誌名、最新情報）のリストを返却します。
 
 #### Request Body
 
@@ -59,185 +74,5 @@ ShangriLa API Serverが持っているアニメ情報のクールごとの情報
 
 #### Response Body
 
-| Property     | Value               |description|Sample|
+| Property     | Type               |description|Sample|
 | :------------ | :------------------ |:------|:-------|
-| cours_idの値 | Cours Object |cours_idはシステムで割り振ったクールごとのユニークなID(coursマスターのID)|1|
-
-##### Cours Object
-
-| Property     | Value               |description|Sample|
-| :------------ | :------------------ |:------|:-------|
-| id | Number  |cours_id|6|
-| year| Number |該当する西暦(YYYY)|2015|
-| cours| Number |yearの中での順番[１〜４]|2|
-
-
-レスポンス例
-
-```
- $curl http://api.moemoe.tokyo/anime/v1/master/cours | jq .
-
-{
-  "4": {
-    "id": 4,
-    "year": 2014,
-    "cours": 4
-  },
-  "5": {
-    "id": 5,
-    "year": 2015,
-    "cours": 1
-  },
-  "6": {
-    "id": 6,
-    "year": 2015,
-    "cours": 2
-  }
-}
-```
-
-
-### GET /aime/v1/master/:year
-
-:yearで指定されたYYYY年のアニメ1クールから4クールまでの情報をすべて返却します
-
-#### Request Body
-
-なし
-
-#### Response Body
-
-| Property     | Value               |description|Sample|
-| :------------ | :------------------ |:--------|:-------|
-| Array    |Base Object|データがない場合は空の配列|
-
-##### Base Object
-
-| Property     | Value               |description|Sample|
-| :------------ | :------------------ |:--------|:-------|
-| id    |Number|APIで管理するアニメ作品に割り当てられているユニークなID|125|
-| title    |String|アニメ作品名|"冴えない彼女の育てかた"|
-
-
-レスポンス例
-
-```
-curl http://api.moemoe.tokyo/anime/v1/master/2015 | jq .
-[
-  {
-    "id": 124,
-    "title": "幸腹グラフィティ"
-  },
-  {
-    "id": 125,
-    "title": "銃皇無尽のファフニール"
-  },
-  {
-    "id": 126,
-    "title": "冴えない彼女の育てかた"
-  },
-  {
-    "id": 127,
-    "title": "暗殺教室"
-  },
-  {
-    "id": 129,
-    "title": "探偵歌劇ミルキィホームズTD"
-  }
-]
-```
-
-
-### GET /anime/v1/master/:year/:n
-
-:yeatで指定されたYYYY年アニメの:nで指定されたクールの情報をすべて返します。
-
-* /2015/1 だったら2015年1期(冬期) のアニメ作品情報を全て返却します。
-* /2015/2 だったら2015年2期(春期) のアニメ作品情報を全て返却します。
-
-#### Request Body
-
-なし
-
-#### Response Body
-
-
-| Property     | Value               |description|Sample|
-| :------------ | :------------------ |:--------|:-------|
-| Array    |Base Object|データがない場合は空の配列||
-
-##### Base Object
-
-requiredに◯がないものは値なし(=データメンテナンスしていない)の場合があります。
-
-またプロパティは追加される可能性があります。
-
-| Property     |Value |Required|description|Sample|
-| :------------|:-----|:-------|:----------|:-----|
-| id           |Number|◯|APIで管理するアニメ作品に割り当てられているユニークなID|125|
-| title        |String|◯|アニメ作品名|"冴えない彼女の育てかた"|
-| title_short1 |String|-|アニメ作品名の略称1|"冴えカノ"|
-| title_short2 |String|-|アニメ作品名の略称2||
-| title_short3 |String|-|アニメ作品名の略称3||
-| public_url   |String|◯|アニメ作品の公式URL|"http://www.saenai.tv/"|
-| twitter_account|String|◯|ツイッターアカウント|"saenai_heroine"|
-| twitter_hash_tag|String|◯|ツイッターハッシュタグ|"saekano"|
-| cours_id     |Number|◯|coursマスターのID|5|
-| created_at   |String|◯|データの作成日時|"2015-01-08 09:37:01.0"|
-| updated_at   |String|◯|データの更新日時|"2015-01-08 09:37:01.0"|
-| sex          |Number|-|男性向け=0, 女性向け=1|0|
-| sequel       |Number|-|続編モノの場合は1以上の数値が入る|0|
-
-レスポンス例
-
-```
-curl http://api.moemoe.tokyo/anime/v1/master/2015/2 | jq .
-[
-  {
-    "title_short2": "",
-    "twitter_account": "saenai_heroine",
-    "public_url": "http://www.saenai.tv/",
-    "title_short1": "冴えカノ",
-    "sex": 0,
-    "twitter_hash_tag": "saekano",
-    "id": 126,
-    "sequel": 0,
-    "created_at": "2015-01-08 09:37:01.0",
-    "cours_id": 5,
-    "title": "冴えない彼女の育てかた",
-    "title_short3": "",
-    "updated_at": "2015-01-08 09:37:01.0"
-  },
-  {
-    "title_short2": "",
-    "twitter_account": "ansatsu_anime",
-    "public_url": "",
-    "title_short1": "暗殺教室",
-    "sex": 0,
-    "twitter_hash_tag": "暗殺教室",
-    "id": 127,
-    "sequel": 0,
-    "created_at": "2015-01-08 09:38:00.0",
-    "cours_id": 5,
-    "title": "暗殺教室",
-    "title_short3": "",
-    "updated_at": "2015-01-08 09:38:00.0"
-  },
-]
-```
-
-## V1 Internal API
-
-### 非公開用API (更新系/サーバー制御)用
-
-#### (TODO) PUT /v1/internal/master/
-
-データを更新する
-
-#### (TODO) PUT /v1/internal/chache/ehcahe/refresh 
-
-Ehcacheを強制リフレッシュする 
-
-
-
-

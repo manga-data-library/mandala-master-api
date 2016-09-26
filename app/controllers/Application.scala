@@ -10,6 +10,6 @@ import anorm._
 object Application extends Controller {
 
   def index = Action {
-    Ok(views.html.index("ShangriLa Anime API Server"))
+    Ok(views.html.index("Mandala Master API Server"))
   }
 }
