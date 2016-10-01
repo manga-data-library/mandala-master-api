@@ -29,7 +29,7 @@ activator shell> run 80
 
 ## V1 API リファレンス
 
-docs/api-reference.md
+- [APIリファレンス](docs/api-reference.md)
 
 
 
