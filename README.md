@@ -1,78 +1,46 @@
 # mandala-master-api
 
-漫画に関するデータを返却するAPI。
-
-## 説明
-
-アニメ作品の情報を返すREST形式のAPIサーバーです。
+漫画に関するデータを返却するAPIサーバです。
 
 
-### サーバーシステム要件
+## サーバーシステム要件
 
-* Java7+
-* フレームワーク: Play Framework 2.3+
+* Java 8+
+* フレームワーク: Play Framework 2.5.8
 * 言語: Scala 2.11+
 
 
-### インストール
+## インストール
 
-* MySQL or MariaDB インストール
+* MySQL 5.7
 * mandala データベース作成
 * DDL登録 [Mandala DDL](https://github.com/manga-data-library/mandala-db-migration/tree/master/DDL)
 * マスターテーブルのインサート
 * このディレクトリでactivatorを起動しPlayフレームワークをインストール
 
 
-### 起動方法
+## 起動方法
 
 ```
-shell> activator
-activator shell> start 80
+shell> ./activator
+activator shell> run 80
 ```
 
-### ライセンス
+
+## V1 API リファレンス
+
+- [APIリファレンス](docs/api-reference.md)
+
+
+
+## ライセンス
 
 Apache 2 license
 
-#### 変更点
+### sora-framework-serverからの変更点
 
 本プログラムはsora-framework-serverから以下の変更を行っています。
 
 - 全エンドポイントの変更
 - 対象データをアニメから漫画に変更
-
-
-## V1 API リファレンス
-
-### URI情報
-
-| URI情報    | 値     |
-| :------------- | :------------- |
-| Host         | xxxxxxxxx（未定） |
-| Protocol     | HTTP  |
-| Base URI     | http://xxxxxxxxx/api/master/v1 |
-
-
-### アクセスURI一覧
-
-| HTTP method | URI             | 用途                   |
-| :---------- | :-------------- | :------------- |
-| GET         | /magazine/list      | 雑誌一覧の取得 |
-| GET         | /magazine/:release/:name      | 雑誌一覧の取得 |
-| GET         | /magazine/:release/:name/:year      | 雑誌一覧の取得 |
-| GET         | /magazine/:release/:name/:year/:month | 雑誌一覧の取得 |
-
-
-
-### GET /magazine/list
-
-Mandalaが保持している、雑誌情報（発行タイミングによる分類、情報の年月、雑誌名、最新情報）のリストを返却します。
-
-#### Request Body
-
-なし
-
-#### Response Body
-
-| Property     | Type               |description|Sample|
-| :------------ | :------------------ |:------|:-------|
+- Play Frameworkのバージョンを2.5.8に変更

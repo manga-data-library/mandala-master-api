@@ -8,7 +8,9 @@ GET        /                            controllers.Application.index
 #Anime API V1
 ## master
 GET        /api/master/v1/magazine/list                           controllers.Magazine.list
-#GET        /anime/v1/master/$year_num<[0-9]{4}+>                  controllers.AnimeV1.year(year_num)
-#GET        /anime/v1/master/$year_num<[0-9]{4}+>/$cours<[1-4]+>   controllers.AnimeV1.yearCours(year_num, cours)
+#GET        /api/master/v1/magazine/:name/info                     controllers.Magazine.info(name)
+GET        /api/master/v1/magazine/:name/latest                   controllers.Magazine.latestMangaData(name)
+#GET        /api/master/v1/magazine/:name/$year<[0-9]{4}+>                  controllers.Magazine.mangaData(name, year)
+#GET        /api/master/v1/magazine/:name/$year<[0-9]{4}+>/$month<(0?[1-9]|1[0-2])+>   controllers.Magazine.mangaData(name, year, month)
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file                controllers.Assets.at(path="/public", file)
