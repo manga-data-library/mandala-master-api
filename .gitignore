@@ -10,6 +10,14 @@ dist
 /out
 /.idea_modules
 /.classpath
-/.project
 /RUNNING_PID
-/.settings
+
+# Eclipse
+.project
+.settings
+.cache-main
+.cache-tests
+bin
+
+# Mac
+.DS_Store

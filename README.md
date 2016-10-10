@@ -22,7 +22,7 @@
 ## 起動方法
 
 ```
-shell> activator
+shell> ./activator
 activator shell> run 80
 ```
 
@@ -43,3 +43,4 @@ Apache 2 license
 
 - 全エンドポイントの変更
 - 対象データをアニメから漫画に変更
+- Play Frameworkのバージョンを2.5.8に変更

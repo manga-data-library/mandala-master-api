@@ -11,7 +11,8 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "anorm" % "2.5.0",
   cache,
   ws,
-  "mysql" % "mysql-connector-java" % "5.1.35"
+  "mysql" % "mysql-connector-java" % "5.1.35",
+  specs2 % Test
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
